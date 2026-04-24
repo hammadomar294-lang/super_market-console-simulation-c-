@@ -10,7 +10,9 @@ using namespace std;
 class Cart
 {
 private:
-    struct Action
+
+Action MakeAction(const CartItem &item , bool operation);
+struct Action
     {
         CartItem Item;
         bool Operation;
@@ -29,17 +31,17 @@ private:
 
 public:
 
-    Action MakeAction(const CartItem &item , bool operation);
-
     void AddProduct(const Product &product , int amount);
                         //number of product when they are displayed
     bool RemoveProduct(int product_number);
 
-    void UndoLastItem();
-    void RedoLastItem();
+    bool UndoLastItem();
+    bool RedoLastItem();
 
-    double GetTotalPrice();
+    double GetTotalPrice() const;
 
+    void Clear();
+    bool Empty() const;
     const vector<CartItem>& GetItemsVector() const;
 };
 #endif

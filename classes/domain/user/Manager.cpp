@@ -30,7 +30,7 @@ string Manager::validatePassword(const string& password)
 }
 
 Manager::Manager(int  id,const string& name ,const string & password)
-    : User(validateID(id)) ,
+    : User(id) ,
       Name(validateName(name)),
       Password(validatePassword(password))
 

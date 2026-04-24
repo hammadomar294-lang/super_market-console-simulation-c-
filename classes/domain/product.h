@@ -1,4 +1,6 @@
 #include <string>
+#include "classes/domain/Category.h"
+
 using namespace std;
 
 #ifndef PRODUCT_H
@@ -12,13 +14,17 @@ private :
     string Name;
     double Price;
     int Quantity;
-    // TODO: add category class
+    Category category;
     static int NextId;
+
+    static int ValidateId(int id);
+    static string ValidateName(const string& name);
+    static double ValidatePrice(double price);
+    static int ValidateQuantity(int quantity);
 
 public :
     // id
     int GetId() const;
-    void SetId(int id);
     // name
     string GetName() const;
     void SetName(const string &name);
@@ -28,8 +34,12 @@ public :
     // quantity
     int GetQuantity() const;
     void SetQuantity(int quantity);
+
+    // sales price
+    double GetSalesPrice() const;
     // constructor
-    Product(int id , const string &name , double price , int quantity);
+    Product(int id , const string &name , double price , int quantity , const Category & category);
+    Product(const string &name , double price , int quantity , const Category & category);
 
     // business logic
     bool Sell(int amount);
@@ -41,7 +51,7 @@ public :
     bool isOutOfStock() const;
     bool NeedReStock() const;
 
-   static void SyncIdGenerator(int next_id);
+   static void SyncProductId(int max_id);
 
 };
 

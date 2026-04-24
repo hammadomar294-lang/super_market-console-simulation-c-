@@ -36,10 +36,10 @@ bool Cart::RemoveProduct(int product_number)
     return true;
 }
 
-void Cart::UndoLastItem()
+bool Cart::UndoLastItem()
 {
     if (Undo.empty())
-        return;
+        return false;
     Action action = Undo.top();
     Undo.pop();
     // true
@@ -49,13 +49,13 @@ void Cart::UndoLastItem()
         CartItemVector.push_back(action.Item);
 
     Redo.push(action);
-    
+    return true;
 }
 
-void Cart::RedoLastItem()
+bool Cart::RedoLastItem()
 {
     if (Redo.empty())
-        return;
+        return false;
     Action action = Redo.top();
     Redo.pop();
 
@@ -65,4 +65,30 @@ void Cart::RedoLastItem()
         if (!CartItemVector.empty()) CartItemVector.pop_back();
     
     Undo.push(action);
+    return true;
+}
+
+void Cart::Clear()
+{
+    CartItemVector.clear();
+}
+
+bool Cart::Empty() const
+{
+    return CartItemVector.empty();
+}
+
+const vector<CartItem> &Cart::GetItemsVector() const
+{
+    return CartItemVector;
+}
+
+double Cart::GetTotalPrice() const
+{
+    double total = 0.0;
+    for (const auto & cart_item : CartItemVector)
+    {
+        total += cart_item.GetProduct().GetPrice() * cart_item.GetAmount();
+    }
+    return total;
 }
